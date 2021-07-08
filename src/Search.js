@@ -6,6 +6,7 @@ import Book from "./Book";
 
 class Search extends Component {
     static propTypes = {
+        savedBooks: PropTypes.array.isRequired,
         onUpdateBook: PropTypes.func.isRequired
     }
 
@@ -14,11 +15,26 @@ class Search extends Component {
         books : []
     }
 
+    isBookOnShelf = searchedBook => {
+        for(const savedBook of this.props.savedBooks) {
+            if(savedBook.id === searchedBook.id) {
+                searchedBook.shelf= savedBook.shelf
+            }
+        }
+        return searchedBook;
+    }
+
     search = (query) => {
+        let myBooks = ''
         BooksAPI.search(query)
-            .then((books) =>  {
+            .then((searchedBooks) =>  {
+                if(searchedBooks && !searchedBooks.error) {
+                    myBooks = searchedBooks.map( searchedBook => {
+                        return this.isBookOnShelf(searchedBook)
+                    })
+                }
                 this.setState( (currentState) => ({
-                    books: books || []
+                    books: myBooks || []
                 }))
             })
     }
@@ -47,9 +63,10 @@ class Search extends Component {
                     </div>
                 </div>
                 <div className="search-books-results">
+
                     <ol className="books-grid">
                         {!books.error  && books.map((book) => (
-                            <Book key={book.id} book={book} currentStatusCode={book.shelf = 'none'} onUpdateBook={this.props.onUpdateBook} />
+                            <Book key={book.id} book={book} currentStatusCode={book.shelf || 'none'} onUpdateBook={this.props.onUpdateBook} />
                         ))}
                     </ol>
                 </div>

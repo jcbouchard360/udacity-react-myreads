@@ -8,7 +8,7 @@ const statuses = [  {code : 'currentlyReading', readable : 'Currently Reading'},
                     {code : 'read', readable : 'Read'}];
 
 const ListBooks = props => {
-    const {  allBooks , onUpdateBook } = props;
+    const {  savedBooks , onUpdateBook } = props;
     return (
         <div className="list-books">
             <div className="list-books-title">
@@ -17,7 +17,7 @@ const ListBooks = props => {
             <div className="list-books-content">
                 <div>
                     {statuses.map((status) => (
-                        <Bookshelf key={status.code} currentStatusCode={status.code} currentStatusReadable={status.readable} allBooks={allBooks} onUpdateBook={onUpdateBook} />
+                        <Bookshelf key={status.code} currentStatusCode={status.code} currentStatusReadable={status.readable} savedBooks={savedBooks} onUpdateBook={onUpdateBook} />
                     ))}
                 </div>
             </div>
@@ -33,7 +33,7 @@ const ListBooks = props => {
 export default ListBooks
 
 ListBooks.propTypes = {
-    allBooks: PropTypes.array.isRequired,
+    savedBooks: PropTypes.array.isRequired,
     onUpdateBook: PropTypes.func.isRequired,
 };
 

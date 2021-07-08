@@ -14,6 +14,7 @@ const Book = props => {
                                                  height: 193,
                                                  backgroundImage:`url(${book.imageLinks.thumbnail})`
                                              }}></div>}
+
                     <ShelfChanger book={book} currentStatusCode={currentStatusCode} onUpdateBook={onUpdateBook} />
                 </div>
                 <div className="book-title">{book.title}</div>
